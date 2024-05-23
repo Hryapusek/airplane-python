@@ -1,0 +1,3 @@
+[submodule "airplane-distance-detector"]
+	path = airplane-distance-detector
+	url = git@github.com:Hryapusek/airplane-distance-detector.git
