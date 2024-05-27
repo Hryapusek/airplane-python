@@ -1,10 +1,14 @@
+from concurrent.futures import Future, TimeoutError as FTimeoutError
+
+import requests
 from .checking_sector import *
 from .flashing_rectangle import FlashingRectangle
 from .ui_main_window import Ui_MainWindow
 from loguru import logger
 from soundplayer.sound_player import SoundPlayer
 
-import requests
+from requests_futures import sessions
+from requests import Response
 
 from PyQt5.QtWidgets import QMainWindow, QMessageBox, qApp
 from PyQt5.QtCore import QPoint, QTimer
@@ -21,7 +25,7 @@ LEFT_WING_PORT = 32105
 RIGHT_WING_PORT = LEFT_WING_PORT + 1
 LEFT_STABILIZER_PORT = RIGHT_WING_PORT + 1
 RIGHT_STABILIZER_PORT = LEFT_STABILIZER_PORT + 1
-TIMEOUT = 1
+TIMEOUT = 3
 INTERVAL = 200
 
 class MainWindow(QMainWindow):
@@ -60,9 +64,17 @@ background-color: white;
 
     def __connect_button_clicked(self, show_boxes: bool = True):
         any_failed = False
+        session = sessions.FuturesSession(max_workers=1)
         for label, port in zip(self.labels, self.ports):
             try:
-                response = requests.get(f"http://localhost:{port}/distance", timeout=TIMEOUT)
+                response_future: Future[Response] = session.get(f"http://localhost:{port}/distance", timeout=TIMEOUT)
+                while True:
+                    try:
+                        response = response_future.result(0.05)
+                        break
+                    except FTimeoutError:
+                        qApp.processEvents()
+                qApp.processEvents()
                 if not response.ok:
                     raise requests.HTTPError()                
                 label.setStyleSheet("color : green")
@@ -80,12 +92,19 @@ background-color: white;
     
     def __ask_detectors(self):
         most_critical_state = State.SAFE_DISTANCE
+        session = sessions.FuturesSession(max_workers=1)
         for sector, label, port in zip(self.sectors, self.labels, self.ports):
             try:
-                response = requests.get(f"http://localhost:{port}/distance", timeout=TIMEOUT)
+                response_future: Future[Response] = session.get(f"http://localhost:{port}/distance", timeout=TIMEOUT)
+                while True:
+                    try:
+                        response = response_future.result(0.05)
+                        break
+                    except FTimeoutError:
+                        qApp.processEvents()
                 qApp.processEvents()
                 if not response.ok:
-                    raise requests.HTTPError()
+                    raise requests.HTTPError()  
                 distance = response.json()['distance']
                 if distance <= 1:
                     new_state = State.DISTANCE_1
