@@ -21,7 +21,7 @@ LEFT_WING_PORT = 32105
 RIGHT_WING_PORT = LEFT_WING_PORT + 1
 LEFT_STABILIZER_PORT = RIGHT_WING_PORT + 1
 RIGHT_STABILIZER_PORT = LEFT_STABILIZER_PORT + 1
-TIMEOUT = 0.3
+TIMEOUT = 1
 INTERVAL = 200
 
 class MainWindow(QMainWindow):
@@ -72,8 +72,9 @@ class MainWindow(QMainWindow):
         else:
             if show_boxes: QMessageBox.information(self, "Успех", "Подключение к датчикам было успешно установлено!")
             QTimer.singleShot(INTERVAL, self.__ask_detectors)
-        
+    
     def __ask_detectors(self):
+        logger.info("Asking detectors")
         most_critical_state = State.SAFE_DISTANCE
         for sector, label, port in zip(self.sectors, self.labels, self.ports):
             try:
@@ -91,7 +92,7 @@ class MainWindow(QMainWindow):
                     new_state = State.SAFE_DISTANCE
                 most_critical_state = State(min(new_state.value, most_critical_state.value))
                 sector.set_state(new_state)
-            except:
+            except Exception as e:
                 label.setStyleSheet("color : red")
                 label.setText("Соединение не установлено!")
                 self.sound_player.set_state(State.SAFE_DISTANCE)

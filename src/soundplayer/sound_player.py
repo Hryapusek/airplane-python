@@ -1,7 +1,10 @@
 from states import *
 from threading import Thread, Event
-from playsound import playsound
+from pygame import mixer
 from asyncio import sleep, run
+
+mixer.init()
+mixer.music.load('beep.mp3')
 
 class SoundPlayer:
     def __init__(self) -> None:
@@ -29,8 +32,8 @@ class SoundPlayer:
     def __play_sound(self, interval_msec: int):
         while not self.__stop_flag.is_set():
             try:
-                playsound("res/beep.mp3", block=False)
+                mixer.music.play()
             except:
-                pass
+                raise
             if self.__stop_flag.is_set(): return
             run(sleep(interval_msec/1000))
