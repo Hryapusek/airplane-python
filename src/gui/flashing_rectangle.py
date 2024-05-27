@@ -7,7 +7,7 @@ class FlashingRectangle(QWidget):
     def __init__(self, parent, rectangle: QRect, flash_count: int, interval_msec: int, text = "sus"):
         super().__init__(parent)
         self.move(rectangle.x(), rectangle.y())
-        self.resize(rectangle.size() + QSize(40, 20))
+        self.resize(rectangle.size() + QSize(80, 20))
         self.__rectangle = rectangle
         self.__current_flash_count = 0
         self.__interval_msec = interval_msec

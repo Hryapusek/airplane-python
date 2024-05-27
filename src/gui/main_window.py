@@ -9,10 +9,10 @@ import requests
 from PyQt5.QtWidgets import QMainWindow, QMessageBox
 from PyQt5.QtCore import QPoint, QTimer
 
-RIGHT_WING_POINT = QPoint(27, 320)
-RIGHT_STABILIZER_POINT = QPoint(203, 152)
-LEFT_STABILIZER_POINT = QPoint(365, 152) - QPoint(WIDTH, 0)
-LEFT_WING_POINT = QPoint(539, 320) - QPoint(WIDTH, 0)
+RIGHT_WING_POINT = QPoint(30, 430)
+RIGHT_STABILIZER_POINT = QPoint(280, 185)
+LEFT_STABILIZER_POINT = QPoint(520, 185) - QPoint(WIDTH, 0)
+LEFT_WING_POINT = QPoint(770, 430) - QPoint(WIDTH, 0)
 
 WINDOW_HEIGHT = 1080
 WINDOW_WIDTH = 800
