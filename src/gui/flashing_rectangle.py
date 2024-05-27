@@ -4,13 +4,14 @@ from PyQt5.QtCore import QTimer, QRect, QSize, Qt, QPoint
 
 
 class FlashingRectangle(QWidget):
-    def __init__(self, parent, rectangle: QRect, flash_count: int, interval_msec: int, text = "sus"):
+    def __init__(self, parent, rectangle: QRect, flash_count: int, interval_msec: int, text, color: QColor):
         super().__init__(parent)
         self.move(rectangle.x(), rectangle.y())
         self.resize(rectangle.size() + QSize(80, 20))
         self.__rectangle = rectangle
         self.__current_flash_count = 0
         self.__interval_msec = interval_msec
+        self.__color = color
         self.flash_count = flash_count
         self.text = text
         QTimer.singleShot(interval_msec, self.timeout)
@@ -29,9 +30,7 @@ class FlashingRectangle(QWidget):
         font = qp.font()
         font.setPointSize(12)
         qp.setFont(font)
-        color = QColor()
-        color.setRgb(255, 0, 0)
-        br = QBrush(color)
+        br = QBrush(self.__color)
         qp.setBrush(br)
         pen = QPen()
         qp.setPen(pen)

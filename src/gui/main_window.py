@@ -34,7 +34,6 @@ class MainWindow(QMainWindow):
 background-image: url(./res/plane_model.png);
 background-repeat: no-repeat;
 background-color: white;
-
 """
         self.setStyleSheet(style)
 
