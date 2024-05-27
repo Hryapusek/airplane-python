@@ -14,6 +14,7 @@ class FlashingRectangle(QWidget):
         self.__color = color
         self.flash_count = flash_count
         self.text = text
+        self.show()
         QTimer.singleShot(interval_msec, self.timeout)
 
     def timeout(self):
