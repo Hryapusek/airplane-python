@@ -7,15 +7,15 @@ from soundplayer.sound_player import SoundPlayer
 import requests
 
 from PyQt5.QtWidgets import QMainWindow, QMessageBox
-from PyQt5.QtCore import QPoint, QTimer, QRect
+from PyQt5.QtCore import QPoint, QTimer
 
 RIGHT_WING_POINT = QPoint(27, 320)
 RIGHT_STABILIZER_POINT = QPoint(203, 152)
 LEFT_STABILIZER_POINT = QPoint(365, 152) - QPoint(WIDTH, 0)
 LEFT_WING_POINT = QPoint(539, 320) - QPoint(WIDTH, 0)
 
-WINDOW_HEIGHT = 800
-WINDOW_WIDTH = 570
+WINDOW_HEIGHT = 1080
+WINDOW_WIDTH = 800
 
 LEFT_WING_PORT = 32105
 RIGHT_WING_PORT = LEFT_WING_PORT + 1
@@ -30,7 +30,13 @@ class MainWindow(QMainWindow):
         self._ui = Ui_MainWindow()
         self._ui.setupUi(self)
         self.setFixedSize(WINDOW_WIDTH, WINDOW_HEIGHT)
-        self.setStyleSheet("background-image: url(./res/plane_model.png)")
+        style = """
+background-image: url(./res/plane_model.png);
+background-repeat: no-repeat;
+background-color: white;
+
+"""
+        self.setStyleSheet(style)
 
         self.sound_player = SoundPlayer()
 
@@ -74,7 +80,6 @@ class MainWindow(QMainWindow):
             QTimer.singleShot(INTERVAL, self.__ask_detectors)
     
     def __ask_detectors(self):
-        logger.info("Asking detectors")
         most_critical_state = State.SAFE_DISTANCE
         for sector, label, port in zip(self.sectors, self.labels, self.ports):
             try:
