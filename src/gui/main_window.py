@@ -6,7 +6,7 @@ from soundplayer.sound_player import SoundPlayer
 
 import requests
 
-from PyQt5.QtWidgets import QMainWindow, QMessageBox
+from PyQt5.QtWidgets import QMainWindow, QMessageBox, qApp
 from PyQt5.QtCore import QPoint, QTimer
 
 RIGHT_WING_POINT = QPoint(30, 430)
@@ -83,6 +83,7 @@ background-color: white;
         for sector, label, port in zip(self.sectors, self.labels, self.ports):
             try:
                 response = requests.get(f"http://localhost:{port}/distance", timeout=TIMEOUT)
+                qApp.processEvents()
                 if not response.ok:
                     raise requests.HTTPError()
                 distance = response.json()['distance']
