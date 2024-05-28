@@ -24,7 +24,7 @@ class Ui_MainWindow(object):
         self.connect_btn.setFont(font)
         self.connect_btn.setObjectName("connect_btn")
         self.layoutWidget = QtWidgets.QWidget(self.centralwidget)
-        self.layoutWidget.setGeometry(QtCore.QRect(10, 830, 761, 106))
+        self.layoutWidget.setGeometry(QtCore.QRect(10, 830, 761, 141))
         self.layoutWidget.setObjectName("layoutWidget")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.layoutWidget)
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
