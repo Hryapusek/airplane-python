@@ -92,7 +92,9 @@ background-color: white;
     
     def __ask_detectors(self):
         most_critical_state = State.SAFE_DISTANCE
+        qApp.processEvents()
         session = sessions.FuturesSession(max_workers=1)
+        qApp.processEvents()
         for sector, label, port in zip(self.sectors, self.labels, self.ports):
             try:
                 response_future: Future[Response] = session.get(f"http://localhost:{port}/distance", timeout=TIMEOUT)
@@ -122,7 +124,6 @@ background-color: white;
                 self.sound_player.set_state(State.SAFE_DISTANCE)
                 self.show_connection_error_box()
                 return
-            qApp.processEvents()
         self.sound_player.set_state(most_critical_state)
         QTimer.singleShot(INTERVAL, self.__ask_detectors)
 
