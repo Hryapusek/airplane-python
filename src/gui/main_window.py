@@ -35,9 +35,12 @@ class MainWindow(QMainWindow):
         self._ui.setupUi(self)
         self.setFixedSize(WINDOW_WIDTH, WINDOW_HEIGHT)
         style = """
+QMainWindow
+{
 background-image: url(./res/plane_model.png);
 background-repeat: no-repeat;
 background-color: white;
+}
 """
         self.setStyleSheet(style)
 
