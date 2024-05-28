@@ -122,6 +122,7 @@ background-color: white;
                 self.sound_player.set_state(State.SAFE_DISTANCE)
                 self.show_connection_error_box()
                 return
+            qApp.processEvents()
         self.sound_player.set_state(most_critical_state)
         QTimer.singleShot(INTERVAL, self.__ask_detectors)
 
