@@ -1,21 +1,21 @@
-# Import necessary modules from PyQt5
+# Импортируем необходимые модули из PyQt5
 from PyQt5.QtGui import QPainter, QBrush, QColor, QPen
 from PyQt5.QtWidgets import QWidget
 from PyQt5.QtCore import QTimer, QRect, QSize, QPoint
 
-# Define a class FlashingRectangle that inherits from QWidget
+# Определяем класс FlashingRectangle, который наследует от QWidget
 class FlashingRectangle(QWidget):
     def __init__(self, parent, rectangle: QRect, flash_count: int, interval_msec: int, text, color: QColor):
-        # Call the constructor of the superclass
+        # Вызываем конструктор суперкласса
         super().__init__(parent)
         
-        # Move the rectangle to the specified position
+        # Перемещаем прямоугольник в указанную позицию
         self.move(rectangle.x(), rectangle.y())
         
-        # Resize the rectangle by adding a fixed size
+        # Изменяем размер прямоугольника, добавляя фиксированный размер
         self.resize(rectangle.size() + QSize(120, 20))
         
-        # Store the rectangle, flash count, interval, color, and text as instance variables
+        # Сохраняем прямоугольник, количество вспышек, интервал, цвет и текст как переменные экземпляра
         self.__rectangle = rectangle
         self.__current_flash_count = 0
         self.__interval_msec = interval_msec
@@ -23,46 +23,46 @@ class FlashingRectangle(QWidget):
         self.flash_count = flash_count
         self.text = text
         
-        # Show the widget
+        # Показываем виджет
         self.show()
         
-        # Schedule a timeout event after the specified interval
+        # Планируем событие таймаута после указанного интервала
         QTimer.singleShot(interval_msec, self.timeout)
 
-    # Define a method to handle the timeout event
+    # Определяем метод для обработки события таймаута
     def timeout(self):
-        # If the widget is hidden, show it and increment the flash count
+        # Если виджет скрыт, показываем его и увеличиваем количество вспышек
         if self.isHidden():
             self.show()
             self.__current_flash_count += 1
-        # If the widget is visible, hide it
+        # Если виджет видим, скрываем его
         else:
             self.hide()
         
-        # If the flash count is less than the specified count, schedule another timeout event
+        # Если количество вспышек меньше указанного количества, планируем еще одно событие таймаута
         if self.__current_flash_count < self.flash_count:
             QTimer.singleShot(self.__interval_msec, self.timeout)
 
-    # Define a method to handle the paint event
+    # Определяем метод для обработки события рисования
     def paintEvent(self, event):
-        # Create a QPainter object
+        # Создаем объект QPainter
         qp = QPainter(self)
         
-        # Set the font and font size
+        # Устанавливаем шрифт и размер шрифта
         font = qp.font()
         font.setPointSize(12)
         qp.setFont(font)
         
-        # Create a QBrush object with the specified color
+        # Создаем объект QBrush с указанным цветом
         br = QBrush(self.__color)
         qp.setBrush(br)
         
-        # Create a QPen object
+        # Создаем объект QPen
         pen = QPen()
         qp.setPen(pen)
         
-        # Draw a rectangle with the specified dimensions
+        # Рисуем прямоугольник с указанными размерами
         qp.drawRect(0, 0, self.__rectangle.width(), self.__rectangle.height())
         
-        # Draw the text at the specified position
+        # Рисуем текст в указанной позиции
         qp.drawText(QPoint(0, self.__rectangle.height() + 15), self.text)

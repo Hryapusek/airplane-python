@@ -1,21 +1,21 @@
-# Import the necessary module for creating the application
+# Импортируем необходимый модуль для создания приложения
 from PyQt5.QtWidgets import QApplication
-# Import the main window class from the gui module
+# Импортируем класс главного окна из модуля gui
 from gui.main_window import MainWindow
 
 
-# Define the main function
+# Определяем главную функцию
 def main():
-    # Create an instance of the QApplication class
+    # Создаем экземпляр класса QApplication
     app = QApplication([])
-    # Create an instance of the MainWindow class
+    # Создаем экземпляр класса MainWindow
     widget = MainWindow()
-    # Show the main window
+    # Показываем главное окно
     widget.show()
-    # Start the application's event loop
+    # Запускаем цикл событий приложения
     app.exec_()
 
-# Check if this script is being run directly (not being imported)
+# Проверяем, запускается ли этот скрипт напрямую (не импортируется)
 if __name__ == "__main__":
-    # Call the main function
+    # Вызываем главную функцию
     main()

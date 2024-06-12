@@ -1,0 +1,709 @@
+src/main.py
+--------------------
+# Импортируем необходимый модуль для создания приложения
+from PyQt5.QtWidgets import QApplication
+# Импортируем класс главного окна из модуля gui
+from gui.main_window import MainWindow
+
+
+# Определяем главную функцию
+def main():
+    # Создаем экземпляр класса QApplication
+    app = QApplication([])
+    # Создаем экземпляр класса MainWindow
+    widget = MainWindow()
+    # Показываем главное окно
+    widget.show()
+    # Запускаем цикл событий приложения
+    app.exec_()
+
+# Проверяем, запущен ли этот скрипт непосредственно (не импортирован)
+if __name__ == "__main__":
+    # Вызываем главную функцию
+    main()
+
+src/gui/res/mainwindow.ui
+--------------------
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>1000</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QPushButton" name="connect_btn">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>780</y>
+      <width>201</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Подключиться</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>830</y>
+      <width>761</width>
+      <height>141</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout" stretch="3,4">
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QLabel" name="connection_label">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Левое крыло</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="connection_label_2">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Правое крыло</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="connection_label_3">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Левый стабилизатор</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="connection_label_4">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Правый стабилизатор</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QLabel" name="lw_con_label">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Соединение не установлено!</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="rw_con_label">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Соединение не установлено!</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="ls_con_label">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Соединение не установлено!</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="rs_con_label">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Соединение не установлено!</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
+
+src/gui/__init__.py
+--------------------
+
+src/gui/ui_main_window.py
+--------------------
+# -*- coding: utf-8 -*-
+
+# Реализация формы, сгенерированная из файла ui 'mainwindow.ui'
+#
+# Создано: генератором кода PyQt5 UI 5.15.10
+#
+# ПРЕДУПРЕЖДЕНИЕ: Любые ручные изменения, внесенные в этот файл, будут потеряны при повторном запуске pyuic5.
+# Не редактируйте этот файл, если вы не знаете, что делаете.
+
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+
+class Ui_MainWindow(object):
+    def setupUi(self, MainWindow):
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.resize(800, 1000)
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        self.connect_btn = QtWidgets.QPushButton(self.centralwidget)
+        self.connect_btn.setGeometry(QtCore.QRect(10, 780, 201, 31))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.connect_btn.setFont(font)
+        self.connect_btn.setObjectName("connect_btn")
+        self.layoutWidget = QtWidgets.QWidget(self.centralwidget)
+        self.layoutWidget.setGeometry(QtCore.QRect(10, 830, 761, 141))
+        self.layoutWidget.setObjectName("layoutWidget")
+        self.horizontalLayout = QtWidgets.QHBoxLayout(self.layoutWidget)
+        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.verticalLayout = QtWidgets.QVBoxLayout()
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.connection_label = QtWidgets.QLabel(self.layoutWidget)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.connection_label.setFont(font)
+        self.connection_label.setObjectName("connection_label")
+        self.verticalLayout.addWidget(self.connection_label)
+        self.connection_label_2 = QtWidgets.QLabel(self.layoutWidget)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.connection_label_2.setFont(font)
+        self.connection_label_2.setObjectName("connection_label_2")
+        self.verticalLayout.addWidget(self.connection_label_2)
+        self.connection_label_3 = QtWidgets.QLabel(self.layoutWidget)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.connection_label_3.setFont(font)
+        self.connection_label_3.setObjectName("connection_label_3")
+        self.verticalLayout.addWidget(self.connection_label_3)
+        self.connection_label_4 = QtWidgets.QLabel(self.layoutWidget)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.connection_label_4.setFont(font)
+        self.connection_label_4.setObjectName("connection_label_4")
+        self.verticalLayout.addWidget(self.connection_label_4)
+        self.horizontalLayout.addLayout(self.verticalLayout)
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout()
+        self.verticalLayout_2.setObjectName("verticalLayout_2")
+        self.lw_con_label = QtWidgets.QLabel(self.layoutWidget)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.lw_con_label.setFont(font)
+        self.lw_con_label.setObjectName("lw_con_label")
+        self.verticalLayout_2.addWidget(self.lw_con_label)
+        self.rw_con_label = QtWidgets.QLabel(self.layoutWidget)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.rw_con_label.setFont(font)
+        self.rw_con_label.setObjectName("rw_con_label")
+        self.verticalLayout_2.addWidget(self.rw_con_label)
+        self.ls_con_label = QtWidgets.QLabel(self.layoutWidget)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.ls_con_label.setFont(font)
+        self.ls_con_label.setObjectName("ls_con_label")
+        self.verticalLayout_2.addWidget(self.ls_con_label)
+        self.rs_con_label = QtWidgets.QLabel(self.layoutWidget)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.rs_con_label.setFont(font)
+        self.rs_con_label.setObjectName("rs_con_label")
+        self.verticalLayout_2.addWidget(self.rs_con_label)
+        self.horizontalLayout.addLayout(self.verticalLayout_2)
+        self.horizontalLayout.setStretch(0, 3)
+        self.horizontalLayout.setStretch(1, 4)
+        MainWindow.setCentralWidget(self.centralwidget)
+
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def retranslateUi(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        self.connect_btn.setText(_translate("MainWindow", "Подключиться"))
+        self.connection_label.setText(_translate("MainWindow", "Левое крыло"))
+        self.connection_label_2.setText(_translate("MainWindow", "Правое крыло"))
+        self.connection_label_3.setText(_translate("MainWindow", "Левый стабилизатор"))
+        self.connection_label_4.setText(_translate("MainWindow", "Правый стабилизатор"))
+        self.lw_con_label.setText(_translate("MainWindow", "Соединение не установлено!"))
+        self.rw_con_label.setText(_translate("MainWindow", "Соединение не установлено!"))
+        self.ls_con_label.setText(_translate("MainWindow", "Соединение не установлено!"))
+        self.rs_con_label.setText(_translate("MainWindow", "Соединение не установлено!"))
+
+src/gui/flashing_rectangle.py
+--------------------
+# Импортируем необходимые модули из PyQt5
+from PyQt5.QtGui import QPainter, QBrush, QColor, QPen
+from PyQt5.QtWidgets import QWidget
+from PyQt5.QtCore import QTimer, QRect, QSize, QPoint
+
+# Определяем класс FlashingRectangle, который наследуется от QWidget
+class FlashingRectangle(QWidget):
+    def __init__(self, parent, rectangle: QRect, flash_count: int, interval_msec: int, text, color: QColor):
+        # Вызываем конструктор суперкласса
+        super().__init__(parent)
+        
+        # Перемещаем прямоугольник в указанную позицию
+        self.move(rectangle.x(), rectangle.y())
+        
+        # Изменяем размер прямоугольника, добавляя фиксированный размер
+        self.resize(rectangle.size() + QSize(120, 20))
+        
+        # Храним прямоугольник, количество вспышек, интервал, цвет и текст как переменные экземпляра
+        self.__rectangle = rectangle
+        self.__current_flash_count = 0
+        self.__interval_msec = interval_msec
+        self.__color = color
+        self.flash_count = flash_count
+        self.text = text
+        
+        # Показываем виджет
+        self.show()
+        
+        # Запланируем событие таймаута после указанного интервала
+        QTimer.singleShot(interval_msec, self.timeout)
+
+    # Определяем метод для обработки события таймаута
+    def timeout(self):
+        # Если виджет скрыт, показываем его и увеличиваем количество вспышек
+        if self.isHidden():
+            self.show()
+            self.__current_flash_count += 1
+        # Если виджет видим, скрываем его
+        else:
+            self.hide()
+        
+        # Если количество вспышек меньше указанного количества, планируем другое событие таймаута
+        if self.__current_flash_count < self.flash_count:
+            QTimer.singleShot(self.__interval_msec, self.timeout)
+
+    # Определяем метод для обработки события рисования
+    def paintEvent(self, event):
+        # Создаем объект QPainter
+        qp = QPainter(self)
+        
+        # Устанавливаем шрифт и размер шрифта
+        font = qp.font()
+        font.setPointSize(12)
+        qp.setFont(font)
+        
+        # Создаем объект QBrush с указанным цветом
+        br = QBrush(self.__color)
+        qp.setBrush(br)
+        
+        # Создаем объект QPen
+        pen = QPen()
+        qp.setPen(pen)
+        
+        # Рисуем прямоугольник с указанными размерами
+        qp.drawRect(0, 0, self.__rectangle.width(), self.__rectangle.height())
+        
+        # Рисуем текст в указанной позиции
+        qp.drawText(QPoint(0, self.__rectangle.height() + 15), self.text)
+
+src/gui/checking_sector.py
+--------------------
+from PyQt5.QtWidgets import QWidget
+from PyQt5.QtCore import QPoint, QRect, Qt
+from PyQt5.QtGui import QColor
+from .flashing_rectangle import FlashingRectangle
+
+# Импортируем все состояния из модуля states
+from states import *
+
+# Определяем константы для размеров сектора
+SECTOR_HEIGHT = 120
+HEIGHT_MARGIN = 20
+WIDTH = 40
+WIDTH_MARGIN = 80
+SQUARE_HEIGHT = SECTOR_HEIGHT//3
+SQUARE_WIDTH = WIDTH
+
+# Определяем цвета для различных состояний
+M1_COLOR = QColor("red")
+M2_COLOR = QColor("orange")
+M3_COLOR = QColor("yellow")
+
+class CheckingSector(QWidget):
+    def __init__(self, parent):
+        # Инициализируем суперкласс
+        super().__init__(parent)
+        # Устанавливаем фиксированный размер виджета
+        self.setFixedSize(WIDTH + WIDTH_MARGIN, SECTOR_HEIGHT + HEIGHT_MARGIN)
+        # Инициализируем состояние в SAFE_DISTANCE
+        self.__state = State.SAFE_DISTANCE
+        # Инициализируем прямоугольник в None
+        self.__rectangle: FlashingRectangle = None
+
+    def set_state(self, new_state: State):
+        # Проверяем, является ли новое состояние khácным от текущего состояния
+        if new_state != self.__state:
+            # Если прямоугольник существует, удаляем его и устанавливаем в None
+            if self.__rectangle is not None:
+                self.__rectangle.deleteLater()
+                self.__rectangle = None
+            # Устанавливаем прямоугольник в зависимости от нового состояния
+            if new_state == State.DISTANCE_1:
+                # Вычисляем верхнюю левую и нижнюю правую точки для прямоугольника
+                top_left = QPoint(0, SQUARE_HEIGHT*2)
+                bottom_right = QPoint(SQUARE_WIDTH, SQUARE_HEIGHT*3)
+                # Создаем FlashingRectangle с указанными параметрами
+                self.__rectangle = FlashingRectangle(self, QRect(top_left, bottom_right), 7, 100, "1 метр", M1_COLOR)
+            elif new_state == State.DISTANCE_2:
+                top_left = QPoint(0, SQUARE_HEIGHT)
+                bottom_right = QPoint(SQUARE_WIDTH, SQUARE_HEIGHT*2)
+                self.__rectangle = FlashingRectangle(self, QRect(top_left, bottom_right), 5, 200, "2 метра", M2_COLOR)
+            elif new_state == State.DISTANCE_3:
+                top_left = QPoint(0, 0)
+                bottom_right = QPoint(SQUARE_WIDTH, SQUARE_HEIGHT)
+                self.__rectangle = FlashingRectangle(self, QRect(top_left, bottom_right), 3, 300, "3 метра", M3_COLOR)
+            # Обновляем состояние и запускаем перерисовку
+            self.__state = new_state
+            self.update()
+
+src/gui/test/test_main_window.py
+--------------------
+import unittest
+
+from PyQt5.QtWidgets import QApplication
+from ..main_window import MainWindow
+
+
+class TestMainWindow(unittest.TestCase):
+
+    def test_default(self):
+        app = QApplication([])
+        widget = MainWindow()
+        widget.show()
+        app.exec_()
+
+src/gui/test/__init__.py
+--------------------
+# Инициализируем тесты
+
+src/gui/main_window.py
+--------------------
+# Импортируем необходимые модули из concurrent.futures
+from concurrent.futures import Future, TimeoutError as FTimeoutError
+
+# Импортируем модуль requests для отправки HTTP-запросов
+import requests
+# Импортируем модуль checking_sector
+from .checking_sector import *
+# Импортируем модуль flashing_rectangle
+from .flashing_rectangle import FlashingRectangle
+# Импортируем модуль ui_main_window
+from .ui_main_window import Ui_MainWindow
+# Импортируем логгер из loguru
+from loguru import logger
+# Импортируем SoundPlayer из soundplayer
+from soundplayer.sound_player import SoundPlayer
+
+# Импортируем сессии из requests_futures
+from requests_futures import sessions
+# Импортируем Response из requests
+from requests import Response
+
+# Импортируем необходимые модули из PyQt5
+from PyQt5.QtWidgets import QMainWindow, QMessageBox, qApp
+from PyQt5.QtCore import QPoint, QTimer
+
+# Определяем константы для точек
+RIGHT_WING_POINT = QPoint(65, 355)
+RIGHT_STABILIZER_POINT = QPoint(295, 130)
+LEFT_STABILIZER_POINT = QPoint(507, 130) - QPoint(WIDTH, 0)
+LEFT_WING_POINT = QPoint(735, 355) - QPoint(WIDTH, 0)
+
+# Определяем константы для размеров окна
+WINDOW_HEIGHT = 1000
+WINDOW_WIDTH = 800
+
+# Определяем константы для портов
+LEFT_WING_PORT = 32105
+RIGHT_WING_PORT = LEFT_WING_PORT + 1
+LEFT_STABILIZER_PORT = RIGHT_WING_PORT + 1
+RIGHT_STABILIZER_PORT = LEFT_STABILIZER_PORT + 1
+TIMEOUT = 0.2
+INTERVAL = 200
+
+class MainWindow(QMainWindow):
+    def __init__(self):
+        # Инициализируем суперкласс
+        super(MainWindow, self).__init__()
+        # Инициализируем интерфейс
+        self._ui = Ui_MainWindow()
+        self._ui.setupUi(self)
+        # Устанавливаем фиксированный размер окна
+        self.setFixedSize(WINDOW_WIDTH, WINDOW_HEIGHT)
+        # Устанавливаем стиль окна
+        style = """
+QMainWindow
+{
+background-image: url(./res/plane_model.png);
+background-repeat: no-repeat;
+background-color: white;
+}
+"""
+        self.setStyleSheet(style)
+
+        # Инициализируем проигрыватель звука
+        self.sound_player = SoundPlayer()
+
+        # Инициализируем сектора
+        self.right_wing_sector = CheckingSector(self)
+        self.right_wing_sector.move(RIGHT_WING_POINT - QPoint(0, SECTOR_HEIGHT))
+
+        self.right_stabilizer_sector = CheckingSector(self)
+        self.right_stabilizer_sector.move(RIGHT_STABILIZER_POINT - QPoint(0, SECTOR_HEIGHT))
+
+        self.left_stabilizer_sector = CheckingSector(self)
+        self.left_stabilizer_sector.move(LEFT_STABILIZER_POINT - QPoint(0, SECTOR_HEIGHT))
+
+        self.left_wing_sector = CheckingSector(self)
+        self.left_wing_sector.move(LEFT_WING_POINT - QPoint(0, SECTOR_HEIGHT))
+
+        # Подключаем событие клика кнопки
+        self._ui.connect_btn.clicked.connect(lambda : self.__connect_button_clicked())
+
+        # Инициализируем метки, порты и сектора
+        self.labels = [self._ui.lw_con_label, self._ui.ls_con_label, self._ui.rs_con_label, self._ui.rw_con_label]
+        self.ports = [LEFT_WING_PORT, LEFT_STABILIZER_PORT, RIGHT_STABILIZER_PORT, RIGHT_WING_PORT]
+        self.sectors = [self.left_wing_sector, self.left_stabilizer_sector, self.right_stabilizer_sector, self.right_wing_sector]
+        # Вызываем событие клика кнопки
+        self.__connect_button_clicked(show_boxes=False)
+
+    def __connect_button_clicked(self, show_boxes: bool = True):
+        # Инициализируем флаг для ошибки подключения
+        any_failed = False
+        # Создаем FuturesSession с одним рабочим
+        session = sessions.FuturesSession(max_workers=1)
+        # Итерируемся по меткам и портам
+        for label, port in zip(self.labels, self.ports):
+            try:
+                # Отправляем GET-запрос к порту с таймаутом
+                response_future: Future[Response] = session.get(f"http://localhost:{port}/distance", timeout=TIMEOUT)
+                # Ждем ответа с таймаутом 0.05 секунд
+                while True:
+                    try:
+                        response = response_future.result(0.05)
+                        break
+                    except FTimeoutError:
+                        # Обрабатываем события, чтобы giữ GUI отзывчивым
+                        qApp.processEvents()
+                # Обрабатываем события, чтобы giữ GUI отзывчивым
+                qApp.processEvents()
+                # Проверяем, является ли ответ OK
+                if not response.ok:
+                    raise requests.HTTPError()                
+                # Устанавливаем стиль и текст метки
+                label.setStyleSheet("color : green")
+                label.setText("Соединение установлено!")
+            except:
+                # Устанавливаем флаг для ошибки подключения
+                any_failed = True
+                # Устанавливаем стиль и текст метки
+                label.setStyleSheet("color : red")
+                label.setText("Соединение не установлено!")
+
+        # Проверяем, произошла ли ошибка подключения
+        if any_failed:
+            # Показываем ошибку подключения, если show_boxes=True
+            if show_boxes: self.show_connection_error_box()
+        else:
+            # Показываем сообщение об успехе, если show_boxes=True
+            if show_boxes: QMessageBox.information(self, "Успех", "Подключение к датчикам было успешно установлено!")
+            # Вызываем функцию ask_detectors через INTERVAL миллисекунд
+            QTimer.singleShot(INTERVAL, self.__ask_detectors)
+    
+    def __ask_detectors(self):
+        # Инициализируем наиболее критическое состояние
+        most_critical_state = State.SAFE_DISTANCE
+        # Обрабатываем события, чтобы giữ GUI отзывчивым
+        qApp.processEvents()
+        # Создаем FuturesSession с одним рабочим
+        session = sessions.FuturesSession(max_workers=1)
+        # Обрабатываем события, чтобы giữ GUI отзывчивым
+        qApp.processEvents()
+        # Итерируемся по секторам, меткам и портам
+        for sector, label, port in zip(self.sectors, self.labels, self.ports):
+            try:
+                # Отправляем GET-запрос к порту с таймаутом
+                response_future: Future[Response] = session.get(f"http://localhost:{port}/distance", timeout=TIMEOUT)
+                # Ждем ответа с таймаутом 0.05 секунд
+                while True:
+                    try:
+                        response = response_future.result(0.05)
+                        break
+                    except FTimeoutError:
+                        # Обрабатываем события, чтобы giữ GUI отзывчивым
+                        qApp.processEvents()
+                # Обрабатываем события, чтобы giữ GUI отзывчивым
+                qApp.processEvents()
+                # Проверяем, является ли ответ OK
+                if not response.ok:
+                    raise requests.HTTPError()  
+                # Получаем расстояние из ответа
+                distance = response.json()['distance']
+                # Определяем новое состояние на основе расстояния
+                if distance <= 1:
+                    new_state = State.DISTANCE_1
+                elif distance <= 2:
+                    new_state = State.DISTANCE_2
+                elif distance <= 3:
+                    new_state = State.DISTANCE_3
+                else:
+                    new_state = State.SAFE_DISTANCE
+                # Обновляем наиболее критическое состояние
+                most_critical_state = State(min(new_state.value, most_critical_state.value))
+                # Устанавливаем состояние сектора
+                sector.set_state(new_state)
+            except Exception as e:
+                # Устанавливаем стиль и текст метки
+                label.setStyleSheet("color : red")
+                label.setText("Соединение не установлено!")
+                # Устанавливаем состояние проигрывателя звука
+                self.sound_player.set_state(State.SAFE_DISTANCE)
+                # Показываем ошибку подключения
+                self.show_connection_error_box()
+                return
+        # Устанавливаем состояние проигрывателя звука
+        self.sound_player.set_state(most_critical_state)
+        # Вызываем функцию ask_detectors через INTERVAL миллисекунд
+        QTimer.singleShot(INTERVAL, self.__ask_detectors)
+
+    def show_connection_error_box(self):
+        # Показываем критическое сообщение
+        QMessageBox.critical(self, "Ошибка подключения.", "Не удалось подключиться к одному из датчиков!")
+# Импортируем необходимые модули
+from states import *  # Импортируем все состояния из модуля states
+from threading import Thread, Event  # Импортируем Thread и Event из модуля threading
+from pygame import mixer  # Импортируем mixer из модуля pygame
+from asyncio import sleep, run  # Импортируем sleep и run из модуля asyncio
+
+# Инициализируем микшер и загружаем звук бипера
+mixer.init()
+mixer.music.load('beep.mp3')
+
+class SoundPlayer:
+    def __init__(self) -> None:
+        # Инициализируем поток, флаг остановки и состояние
+        self.__thread: Thread = None
+        self.__stop_flag = Event()
+        self.__state: State = None
+
+    def set_state(self, new_state: State):
+        # Проверяем, является ли новое состояние другим от текущего состояния
+        if self.__state == new_state:
+            return
+        # Если поток работает, останавливаем его и ждем, пока он не завершится
+        if self.__thread is not None and self.__thread.is_alive():
+            self.__stop_flag.set()
+            self.__thread.join()
+        # Очищаем флаг остановки
+        self.__stop_flag.clear()
+        # Устанавливаем новое состояние и запускаем соответствующий поток
+        if new_state == State.SAFE_DISTANCE:
+            return
+        elif new_state == State.DISTANCE_3:
+            self.__thread = Thread(target=self.__play_sound, args=(900,), daemon=True)
+        elif new_state == State.DISTANCE_2:
+            self.__thread = Thread(target=self.__play_sound, args=(600,), daemon=True)
+        elif new_state == State.DISTANCE_1:
+            self.__thread = Thread(target=self.__play_sound, args=(300,), daemon=True)
+        # Запускаем поток
+        self.__thread.start()
+
+    def __play_sound(self, interval_msec: int):
+        # Проигрываем звук в цикле, пока не будет установлен флаг остановки
+        while not self.__stop_flag.is_set():
+            try: 
+                # Проигрываем звук
+                mixer.music.play()
+            except:
+                # Генерируем любые исключения, которые возникнут
+                raise
+            # Проверяем, установлен ли флаг остановки
+            if self.__stop_flag.is_set(): 
+                return
+            # Ждем указанный интервал
+            run(sleep(interval_msec/1000))
+
+src/states.py
+--------------------
+from enum import Enum
+
+
+# Этот класс представляет различные состояния системы
+class State(Enum):
+    # Система находится в первом состоянии расстояния
+    DISTANCE_1 = 1
+    # Система находится во втором состоянии расстояния
+    DISTANCE_2 = 2
+    # Система находится в третьем состоянии расстояния
+    DISTANCE_3 = 3
+    # Система находится в безопасном состоянии расстояния
+    SAFE_DISTANCE = 4
+    # Система находится в третьем состоянии расстояния
+    DISTANCE_3 = 3
+    # Система находится в безопасном состоянии расстояния
+    SAFE_DISTANCE = 4

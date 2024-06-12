@@ -1,39 +1,39 @@
-# Import necessary modules from concurrent.futures
+# Импортируем необходимые модули из concurrent.futures
 from concurrent.futures import Future, TimeoutError as FTimeoutError
 
-# Import requests module for making HTTP requests
+# Импортируем модуль requests для отправки HTTP-запросов
 import requests
-# Import checking_sector module
+# Импортируем модуль checking_sector
 from .checking_sector import *
-# Import flashing_rectangle module
+# Импортируем модуль flashing_rectangle
 from .flashing_rectangle import FlashingRectangle
-# Import ui_main_window module
+# Импортируем модуль ui_main_window
 from .ui_main_window import Ui_MainWindow
-# Import logger from loguru
+# Импортируем логгер из loguru
 from loguru import logger
-# Import SoundPlayer from soundplayer module
+# Импортируем SoundPlayer из soundplayer
 from soundplayer.sound_player import SoundPlayer
 
-# Import sessions from requests_futures
+# Импортируем сессии из requests_futures
 from requests_futures import sessions
-# Import Response from requests
+# Импортируем Response из requests
 from requests import Response
 
-# Import necessary modules from PyQt5
+# Импортируем необходимые модули из PyQt5
 from PyQt5.QtWidgets import QMainWindow, QMessageBox, qApp
 from PyQt5.QtCore import QPoint, QTimer
 
-# Define constants for points
+# Определяем константы для точек
 RIGHT_WING_POINT = QPoint(65, 355)
 RIGHT_STABILIZER_POINT = QPoint(295, 130)
 LEFT_STABILIZER_POINT = QPoint(507, 130) - QPoint(WIDTH, 0)
 LEFT_WING_POINT = QPoint(735, 355) - QPoint(WIDTH, 0)
 
-# Define constants for window dimensions
+# Определяем константы для размеров окна
 WINDOW_HEIGHT = 1000
 WINDOW_WIDTH = 800
 
-# Define constants for ports
+# Определяем константы для портов
 LEFT_WING_PORT = 32105
 RIGHT_WING_PORT = LEFT_WING_PORT + 1
 LEFT_STABILIZER_PORT = RIGHT_WING_PORT + 1
@@ -43,14 +43,14 @@ INTERVAL = 200
 
 class MainWindow(QMainWindow):
     def __init__(self):
-        # Initialize superclass
+        # Инициализируем суперкласс
         super(MainWindow, self).__init__()
-        # Initialize UI
+        # Инициализируем UI
         self._ui = Ui_MainWindow()
         self._ui.setupUi(self)
-        # Set fixed window size
+        # Устанавливаем фиксированный размер окна
         self.setFixedSize(WINDOW_WIDTH, WINDOW_HEIGHT)
-        # Set window style
+        # Устанавливаем стиль окна
         style = """
 QMainWindow
 {
@@ -61,10 +61,10 @@ background-color: white;
 """
         self.setStyleSheet(style)
 
-        # Initialize sound player
+        # Инициализируем проигрыватель звука
         self.sound_player = SoundPlayer()
 
-        # Initialize sectors
+        # Инициализируем сектора
         self.right_wing_sector = CheckingSector(self)
         self.right_wing_sector.move(RIGHT_WING_POINT - QPoint(0, SECTOR_HEIGHT))
 
@@ -77,89 +77,89 @@ background-color: white;
         self.left_wing_sector = CheckingSector(self)
         self.left_wing_sector.move(LEFT_WING_POINT - QPoint(0, SECTOR_HEIGHT))
 
-        # Connect button click event
+        # Подключаем событие клика кнопки
         self._ui.connect_btn.clicked.connect(lambda : self.__connect_button_clicked())
 
-        # Initialize labels, ports, and sectors
+        # Инициализируем метки, порты и сектора
         self.labels = [self._ui.lw_con_label, self._ui.ls_con_label, self._ui.rs_con_label, self._ui.rw_con_label]
         self.ports = [LEFT_WING_PORT, LEFT_STABILIZER_PORT, RIGHT_STABILIZER_PORT, RIGHT_WING_PORT]
         self.sectors = [self.left_wing_sector, self.left_stabilizer_sector, self.right_stabilizer_sector, self.right_wing_sector]
-        # Call connect button click event
+        # Вызываем событие клика кнопки
         self.__connect_button_clicked(show_boxes=False)
 
     def __connect_button_clicked(self, show_boxes: bool = True):
-        # Initialize flag for connection failure
+        # Инициализируем флаг для ошибки подключения
         any_failed = False
-        # Create a FuturesSession with one worker
+        # Создаем FuturesSession с одним рабочим
         session = sessions.FuturesSession(max_workers=1)
-        # Iterate over labels and ports
+        # Итерируемся по меткам и портам
         for label, port in zip(self.labels, self.ports):
             try:
-                # Make a GET request to the port with a timeout
+                # Отправляем GET-запрос на порт с таймаутом
                 response_future: Future[Response] = session.get(f"http://localhost:{port}/distance", timeout=TIMEOUT)
-                # Wait for the response with a timeout of 0.05 seconds
+                # Ждем ответа с таймаутом 0.05 секунд
                 while True:
                     try:
                         response = response_future.result(0.05)
                         break
                     except FTimeoutError:
-                        # Process events to keep the GUI responsive
+                        # Обрабатываем события, чтобы GUI оставался отзывчивым
                         qApp.processEvents()
-                # Process events to keep the GUI responsive
+                # Обрабатываем события, чтобы GUI оставался отзывчивым
                 qApp.processEvents()
-                # Check if the response is OK
+                # Проверяем, является ли ответ OK
                 if not response.ok:
                     raise requests.HTTPError()                
-                # Set label style and text
+                # Устанавливаем стиль и текст метки
                 label.setStyleSheet("color : green")
                 label.setText("Соединение установлено!")
             except:
-                # Set flag for connection failure
+                # Устанавливаем флаг для ошибки подключения
                 any_failed = True
-                # Set label style and text
+                # Устанавливаем стиль и текст метки
                 label.setStyleSheet("color : red")
                 label.setText("Соединение не установлено!")
 
-        # Check if any connection failed
+        # Проверяем, произошла ли ошибка подключения
         if any_failed:
-            # Show connection error box if show_boxes is True
+            # Показываем ошибку подключения, если show_boxes=True
             if show_boxes: self.show_connection_error_box()
         else:
-            # Show success message box if show_boxes is True
+            # Показываем сообщение об успехе, если show_boxes=True
             if show_boxes: QMessageBox.information(self, "Успех", "Подключение к датчикам было успешно установлено!")
-            # Call ask detectors function after INTERVAL milliseconds
+            # Вызываем функцию ask_detectors через INTERVAL миллисекунд
             QTimer.singleShot(INTERVAL, self.__ask_detectors)
     
     def __ask_detectors(self):
-        # Initialize most critical state
+        # Инициализируем наиболее критическое состояние
         most_critical_state = State.SAFE_DISTANCE
-        # Process events to keep the GUI responsive
+        # Обрабатываем события, чтобы GUI оставался отзывчивым
         qApp.processEvents()
-        # Create a FuturesSession with one worker
+        # Создаем FuturesSession с одним рабочим
         session = sessions.FuturesSession(max_workers=1)
-        # Process events to keep the GUI responsive
+        # Обрабатываем события, чтобы GUI оставался отзывчивым
         qApp.processEvents()
-        # Iterate over sectors, labels, and ports
+        # Итерируемся по секторам, меткам и портам
         for sector, label, port in zip(self.sectors, self.labels, self.ports):
             try:
-                # Make a GET request to the port with a timeout
+                # Отправляем GET-запрос на порт с таймаутом
                 response_future: Future[Response] = session.get(f"http://localhost:{port}/distance", timeout=TIMEOUT)
-                # Wait for the response with a timeout of 0.05 seconds
+                # Ждем ответа с таймаутом 0.05 секунд
                 while True:
                     try:
                         response = response_future.result(0.05)
                         break
                     except FTimeoutError:
-                        # Process events to keep the GUI responsive
+                        # Обрабатываем события, чтобы GUI оставался отзывчивым
                         qApp.processEvents()
-                # Process events to keep the GUI responsive
+                # Обрабатываем события, чтобы GUI оставался отзывчивым
                 qApp.processEvents()
-                # Check if the response is OK
+                # Проверяем, является ли ответ OK
                 if not response.ok:
                     raise requests.HTTPError()  
-                # Get distance from response
+                # Получаем расстояние из ответа
                 distance = response.json()['distance']
-                # Determine new state based on distance
+                # Определяем новое состояние на основе расстояния
                 if distance <= 1:
                     new_state = State.DISTANCE_1
                 elif distance <= 2:
@@ -168,24 +168,25 @@ background-color: white;
                     new_state = State.DISTANCE_3
                 else:
                     new_state = State.SAFE_DISTANCE
-                # Update most critical state
+                # Обновляем наиболее критическое состояние
                 most_critical_state = State(min(new_state.value, most_critical_state.value))
-                # Set sector state
+                # Устанавливаем состояние сектора
                 sector.set_state(new_state)
             except Exception as e:
-                # Set label style and text
+                # Устанавливаем стиль и текст метки
                 label.setStyleSheet("color : red")
                 label.setText("Соединение не установлено!")
-                # Set sound player state
+                # Устанавливаем состояние проигрывателя звука
                 self.sound_player.set_state(State.SAFE_DISTANCE)
-                # Show connection error box
+                # Показываем ошибку подключения
                 self.show_connection_error_box()
                 return
-        # Set sound player state
+
+        # Устанавливаем состояние проигрывателя звука
         self.sound_player.set_state(most_critical_state)
-        # Call ask detectors function after INTERVAL milliseconds
+        # Вызываем функцию ask_detectors через INTERVAL миллисекунд
         QTimer.singleShot(INTERVAL, self.__ask_detectors)
 
     def show_connection_error_box(self):
-        # Show critical message box
+        # Показываем критическое сообщение
         QMessageBox.critical(self, "Ошибка подключения.", "Не удалось подключиться к одному из датчиков!")

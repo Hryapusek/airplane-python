@@ -1,31 +1,31 @@
-# Import the necessary modules
-from states import *  # Import all states from the states module
-from threading import Thread, Event  # Import Thread and Event from the threading module
-from pygame import mixer  # Import mixer from the pygame module
-from asyncio import sleep, run  # Import sleep and run from the asyncio module
+# Импортируем необходимые модули
+from states import *  # Импортируем все состояния из модуля states
+from threading import Thread, Event  # Импортируем Thread и Event из модуля threading
+from pygame import mixer  # Импортируем mixer из модуля pygame
+from asyncio import sleep, run  # Импортируем sleep и run из модуля asyncio
 
-# Initialize the mixer and load the beep sound
+# Инициализируем микшер и загружаем звук beep
 mixer.init()
 mixer.music.load('beep.mp3')
 
 class SoundPlayer:
     def __init__(self) -> None:
-        # Initialize the thread, stop flag, and state
+        # Инициализируем поток, флаг остановки и состояние
         self.__thread: Thread = None
         self.__stop_flag = Event()
         self.__state: State = None
 
     def set_state(self, new_state: State):
-        # Check if the new state is the same as the current state
+        # Проверяем, является ли новое состояние другим от текущего состояния
         if self.__state == new_state:
             return
-        # If a thread is running, stop it and wait for it to finish
+        # Если поток работает, останавливаем его и ждем, пока он не завершится
         if self.__thread is not None and self.__thread.is_alive():
             self.__stop_flag.set()
             self.__thread.join()
-        # Clear the stop flag
+        # Очищаем флаг остановки
         self.__stop_flag.clear()
-        # Set the new state and start the corresponding thread
+        # Устанавливаем новое состояние и запускаем соответствующий поток
         if new_state == State.SAFE_DISTANCE:
             return
         elif new_state == State.DISTANCE_3:
@@ -34,20 +34,20 @@ class SoundPlayer:
             self.__thread = Thread(target=self.__play_sound, args=(600,), daemon=True)
         elif new_state == State.DISTANCE_1:
             self.__thread = Thread(target=self.__play_sound, args=(300,), daemon=True)
-        # Start the thread
+        # Запускаем поток
         self.__thread.start()
 
     def __play_sound(self, interval_msec: int):
-        # Play the sound in a loop until the stop flag is set
+        # Проигрываем звук в цикле, пока не будет установлен флаг остановки
         while not self.__stop_flag.is_set():
             try: 
-                # Play the sound
+                # Проигрываем звук
                 mixer.music.play()
             except:
-                # Raise any exceptions that occur
+                # Генерируем любые исключения, которые возникнут
                 raise
-            # Check if the stop flag is set
+            # Проверяем, установлен ли флаг остановки
             if self.__stop_flag.is_set(): 
                 return
-            # Wait for the specified interval
+            # Ждем указанный интервал
             run(sleep(interval_msec/1000))

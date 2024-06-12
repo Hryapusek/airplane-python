@@ -1,13 +1,14 @@
 from enum import Enum
 
 
-# This class represents the different states of the system
+# Этот класс представляет различные состояния системы
 class State(Enum):
-    # The system is in the first distance state
+    # Система находится в первом состоянии расстояния
     DISTANCE_1 = 1
-    # The system is in the second distance state
+    # Система находится во втором состоянии расстояния
     DISTANCE_2 = 2
-    # The system is in the third distance state
+    # Система находится в третьем состоянии расстояния
     DISTANCE_3 = 3
-    # The system is in the safe distance state
+    # Система находится в безопасном состоянии расстояния
     SAFE_DISTANCE = 4
+
